@@ -8,55 +8,54 @@ def receberValidarEntrada(tipo):
     """
     validandoEntrada = 1
     while validandoEntrada == 1:
+        entrada = str(input('<<< '))
         match tipo:
             case 1:
-                try:
-                    entrada = int(input("<<< "))
-                except:
-                    print(f'>>> Você digitou uma entrada inválida. Por favor, tente novamente!')
+                if entrada.isdigit():
+                    entradaTransformada = int(entrada)
+                    if entradaTransformada >= 0:
+                        return entradaTransformada
+                    else:
+                        print(f'>>> Por favor, insira um valor inteiro positivo.')
                 else:
-                    validandoEntrada = 0
-                    return entrada
+                    print(f'>>> Você digitou uma entrada inválida. Por favor, tente novamente!\n')
             case 2:
-                try:
-                    entrada = float(input("<<< "))
-                except:
-                    print(f'>>> Você digitou uma entrada inválida. Por favor, tente novamente!')
+                entradaSemEspacos = entrada.replace(" ", "")
+                if entradaSemEspacos.replace(".", "", 1).isdigit():
+                    entradaTransformada = float(entradaSemEspacos)
+                    return entradaTransformada
+                elif entradaSemEspacos.replace(",", "", 1).isdigit():
+                    entradaTransformada = float(entradaSemEspacos.replace(",", ".", 1))
+                    return entradaTransformada
                 else:
-                    validandoEntrada = 0
-                    return entrada
+                    print(f'>>> Entrada inválida. Por favor, digite um valor real positivo.')
             case 3:
-                try:
-                    entrada = str(input("<<< "))
-                except:
-                    print(f'>>> Você digitou uma entrada inválida. Por favor, tente novamente!')
-                else:
-                    validandoEntrada = 0
-                    return entrada
+                return entrada
 
-def verificarIdadePulseira():
+
+def verificarIdadePulseira(contador):
     validandoIdade = 1
-    print(f'--- Idade da pessoa:')
+    print(f'--- INGRESSO {contador+1} | Digite a idade:')
     while validandoIdade == 1:
         idade = receberValidarEntrada(1)
         if idade <= 0:
-            print(f'>>> A idade inserida está inválida. Por favor, tente novamente.')
+            print(f'>>> A idade inserida está inválida. Por favor, tente novamente.\n')
         if idade >= 1 and idade <= 9:
-            print(f'>>> Ingresso gratuito / Pulseira: amarela.')
-            validandoIdade = 0
+            print(f'>>> Ingresso gratuito / Pulseira: amarela.\n')
+            return "amarela"
         if idade >= 10 and idade <= 17:
-            print(f'>>> Ingresso adolescente: R$15 / Pulseira: laranja.')
-            validandoIdade = 0
+            print(f'>>> Ingresso adolescente: R$15 / Pulseira: laranja.\n')
+            return "laranja"
         if idade >= 18 and idade <= 130:
             estudante = verificarEstudante()
             if estudante:
-                print(f'>>> INGRESSO É 20 PORRRAAAAA PULSEIRA ROXA')
-                validandoIdade = 0
+                print(f'>>> Ingresso jovem/adulto estudante: R$20 / Pulseira: roxa.\n')
+                return "roxa"
             else:
-                print(f'>>> PASSA OS 40 FILHO DA PUTA PULSEIRA VERMEIA')
-                validandoIdade = 0
+                print(f'>>> Ingresso jovem/adulto estudante: R$40 / Pulseira: vermelha.\n')
+                return "vermelha"
         if idade > 130:
-            print(f'>>> Para de mentir... Inválido, tente novamente.')
+            print(f'>>> Para de mentir... Inválido, tente novamente.\n')
 
 def validarMatricula():
     '''
@@ -94,8 +93,53 @@ def verificarEstudante():
             case _:
                 print(f'>>> Opção inválida. Por favor, tente novamente.')
 
-'''def processarCompra(ingressos):
+def resumirCompra(pulseirasEscolhidas):
+    valorTotal = 0
+    print(f'--- RESUMO DA COMPRA:')
+    for i, v in pulseirasEscolhidas.items():
+        if v > 0:
+            if i == "amarela":
+                print(f'>>> {v}x pulseira {i}: GRATUITO')
+            elif i == "laranja":
+                valorTotal += v*15
+                print(f'>>> {v}x pulseira {i}: R${v*15} (R$15 cada)')
+            elif i == "vermelha":
+                valorTotal += v*40
+                print(f'>>> {v}x pulseira {i}: R${v*40} (R$40 cada)')
+            elif i == "roxa":
+                valorTotal += v*20
+                print(f'>>> {v}x pulseira {i}: R${v*20} (R$20 cada)')
+    print(f'>>> TOTAL DA COMPRA: R${valorTotal}\n')
+    return valorTotal
+
+def efetuarPagamento(total):
+    efetuando = 1
+    while efetuando == 1:
+        print(f'--- Insira o valor do dinheiro para pagar:')
+        pegarDinheiro = receberValidarEntrada(2)
+        if pegarDinheiro < total:
+            print(f'>>> VALOR NÃO SUFICIENTE!')
+        elif pegarDinheiro >= total:
+            troco = pegarDinheiro - total
+            if troco == 0:
+                print(f'>>> Pagamento efetuado! Nao precisa de troco.')
+                efetuando = 0
+            elif troco > 0:
+                print(f'>>> Pagamento efetuado! O troco é R${troco:.2f}.')
+                efetuando = 0
+
+def processarCompra(ingressos):
+    pulseirasAcomprar = {
+        "amarela": 0,
+        "laranja": 0,
+        "vermelha": 0,
+        "roxa": 0
+    }
 
     for i in range(ingressos):
-        verificarIdadePulseira()'''
+        pulseiraAtribuida = verificarIdadePulseira(i)
+        pulseirasAcomprar[pulseiraAtribuida] += 1
 
+    totalPagar = resumirCompra(pulseirasAcomprar)
+    efetuarPagamento(totalPagar)
+    print(f'AQUI CHEGA AO FIM HEREGE')

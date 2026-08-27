@@ -1,5 +1,10 @@
 from funcoes import *
 
-#quantIngressos = receberValidarEntrada(1)
-#processarCompra(quantIngressos)
-verificarIdadePulseira()
+pulseirasCompradas = {
+        "amarela": 0,
+        "laranja": 0,
+        "vermelha": 0,
+        "roxa": 0
+    }
+quantIngressos = receberValidarEntrada(1)
+processarCompra(quantIngressos)
