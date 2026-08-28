@@ -30,7 +30,24 @@ def receberValidarEntrada(tipo):
                 else:
                     print(f'>>> Entrada inválida. Por favor, digite um valor real positivo.')
             case 3:
-                return entrada
+                return entrada.lower()
+
+def receberValidarEscolha(texto, tipo):
+    validando = 1
+    print(f'{texto}')
+    while validando == 1:
+        escolha = receberValidarEntrada(tipo)
+        print(f'--- Você confirma a escolha ({escolha})? [1 - SIM | 0 - NÃO]')
+        confirmando = 1
+        while confirmando == 1:
+            confirmacao = receberValidarEntrada(1)
+            if confirmacao == 1:
+                return escolha
+            elif confirmacao == 0:
+                print(f'{texto}')
+                confirmando = 0
+            else:
+                print(f'>>> Opção inválida, tente novamente!!!')
 
 
 def verificarIdadePulseira(contador):
@@ -122,11 +139,30 @@ def efetuarPagamento(total):
         elif pegarDinheiro >= total:
             troco = pegarDinheiro - total
             if troco == 0:
-                print(f'>>> Pagamento efetuado! Nao precisa de troco.')
-                efetuando = 0
+                return print(f'>>> Pagamento efetuado! Nao precisa de troco.')
             elif troco > 0:
-                print(f'>>> Pagamento efetuado! O troco é R${troco:.2f}.')
-                efetuando = 0
+                return print(f'>>> Pagamento efetuado! O troco é R${troco:.2f}.')
+
+def atualizarDicionarioCompras(dados, compradas):
+    for i, v in dados.items():
+        compradas[i] += v
+    return compradas
+
+def calcularDicionario(dicionario, calculo):
+    match calculo:
+        case 1:
+            somaTotal = 0
+            for v in dicionario.values():
+                somaTotal += v
+            return somaTotal
+
+
+def temCapacidade(dicionarioPulseiras, capacidade):
+    if calcularDicionario(dicionarioPulseiras, 1) < capacidade:
+        return True
+    else:
+        return False
+
 
 def processarCompra(ingressos):
     pulseirasAcomprar = {
@@ -135,11 +171,11 @@ def processarCompra(ingressos):
         "vermelha": 0,
         "roxa": 0
     }
-
     for i in range(ingressos):
         pulseiraAtribuida = verificarIdadePulseira(i)
         pulseirasAcomprar[pulseiraAtribuida] += 1
-
     totalPagar = resumirCompra(pulseirasAcomprar)
     efetuarPagamento(totalPagar)
-    print(f'AQUI CHEGA AO FIM HEREGE')
+
+    return pulseirasAcomprar
+
