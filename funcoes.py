@@ -148,17 +148,49 @@ def atualizarDicionarioCompras(dados, compradas):
         compradas[i] += v
     return compradas
 
-def calcularDicionario(dicionario, calculo):
-    match calculo:
-        case 1:
-            somaTotal = 0
-            for v in dicionario.values():
-                somaTotal += v
-            return somaTotal
+def somarPulseiras(dicionario):
+    somaTotal = 0
+    for v in dicionario.values():
+        somaTotal += v
+    return somaTotal
+
+def somarValoresPulseiras(dicionario):
+    somaValores = int(0)
+    for i, v in dicionario.items():
+        if i == "laranja":
+            vendasPorCor = v * 15
+            somaValores += vendasPorCor
+        elif i == "vermelha":
+            vendasPorCor = v * 40
+            somaValores += vendasPorCor
+        elif i == "roxa":
+            vendasPorCor = v * 20
+            somaValores += vendasPorCor
+    return somaValores
+
+def tirarPotePremios(arrecadado):
+    if arrecadado <= 300:
+        pote = (10 * arrecadado) / 100
+    elif arrecadado > 300 and arrecadado <= 700:
+        pote = (15 * arrecadado) / 100
+    elif arrecadado > 700:
+        pote = (20 * arrecadado) / 100
+    return pote
+
+def distribuirPremiosCosplay(pote):
+    podio = []
+    for posicao in range(3):
+        if posicao == 0:
+            podio.append((50 * pote) / 100)
+        elif posicao == 1:
+            podio.append((30 * pote) / 100)
+        elif posicao == 2:
+            podio.append((20 * pote) / 100)
+    return podio
 
 
 def temCapacidade(dicionarioPulseiras, capacidade):
-    if calcularDicionario(dicionarioPulseiras, 1) < capacidade:
+    if somarPulseiras(dicionarioPulseiras) < capacidade:
         return True
     else:
         return False

@@ -1,6 +1,6 @@
 from funcoes import *
 
-print("~"*30)
+'''print("~"*30)
 print("{:^30}".format('TOTEM DE INGRESSOS'))
 print("~"*30)
 print(f'--- Boas vindas ao sistema de ingressos da Game-Con Bahia Pocket!!!'
@@ -33,12 +33,26 @@ while eventoAcontecendo == 1:
                 vendas = 0
                 eventoAcontecendo = 0
         elif seguir == "4thmjw94":
-            print(f'>>> PROGRAMA ENCERRADO! O CAIXA SERÁ FECHADO E OS EXIBIDOS')
+            print(f'>>> PROGRAMA ENCERRADO! O CAIXA SERÁ FECHADO E OS DADOS EXIBIDOS')
             vendas = 0
             eventoAcontecendo = 0
         else:
-            print(f'--- Entrada inválida. Tente novamente!')
-### AGORA É CALCULAR OS DADOS!!!!!!!
+            print(f'--- Entrada inválida. Tente novamente!')'''
+
+pulseirasCompradas = {
+    "amarela": 0,
+    "laranja": 4,
+    "vermelha": 12,
+    "roxa": 16
+}
+
+arrecadacao = somarValoresPulseiras(pulseirasCompradas)
+potePremiosCosplay = tirarPotePremios(arrecadacao)
+distribuicaoPremios = distribuirPremiosCosplay(potePremiosCosplay)
+lucro = arrecadacao - potePremiosCosplay
+
+
+
 
 
 
