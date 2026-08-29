@@ -188,6 +188,42 @@ def distribuirPremiosCosplay(pote):
             podio.append((20 * pote) / 100)
     return podio
 
+def ganhosPorPulseira(pulseiras):
+    ganhosPulseiras = {}
+    rankingGanhos = {}
+
+    for i, v in pulseiras.items():
+        if i == "laranja":
+            ganhos = v * 15
+            ganhosPulseiras[i] = ganhos
+        elif i == "vermelha":
+            ganhos = v * 40
+            ganhosPulseiras[i] = ganhos
+        elif i == "roxa":
+            ganhos = v * 20
+            ganhosPulseiras[i] = ganhos
+
+    maior = int(0)
+    menor = int(9000000000)
+    for ganho in ganhosPulseiras.values():
+        if ganho > maior:
+            maior = ganho
+        elif ganho < menor:
+            menor = ganho
+        elif ganho < maior and ganho > menor:
+            medio = ganho
+        elif ganho == maior:
+            medio = ganho
+        elif ganho == menor:
+            medio = ganho
+
+    rankingGanhos['primeiro'] = maior
+    rankingGanhos['segundo'] = medio
+    rankingGanhos['terceiro'] = menor
+    dadosArrecadacao = [ganhosPulseiras, rankingGanhos]
+
+    return dadosArrecadacao
+
 
 def temCapacidade(dicionarioPulseiras, capacidade):
     if somarPulseiras(dicionarioPulseiras) < capacidade:
@@ -210,4 +246,3 @@ def processarCompra(ingressos):
     efetuarPagamento(totalPagar)
 
     return pulseirasAcomprar
-
