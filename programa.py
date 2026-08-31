@@ -39,15 +39,19 @@ while eventoAcontecendo == 1:
                 # Essa variável recebe a quantidade de ingressos que a pessoa deseja comprar.
                 quantIngressos = receberValidarEscolha("--- Quantos ingressos quer comprar?", 1)
 
-                # Essa variável vai chamar a função que executa a compra passando a quantidade de ingressos escolhida
-                # como parâmetro. Esse parâmetro vai ser usado em um for dentro da função. O retorno da função
-                # é um dicionário com as pulseiras adquiridas nessa venda, que é atribuído à variável dadosCompra.
-                dadosCompra = processarCompra(quantIngressos)
+                # condição para garantir que não se tente comprar mais ingressos do que a capacidade restante.
+                if quantIngressos <= (capacidade - somarPulseiras(pulseirasCompradas)):
+                    # Essa variável vai chamar a função que executa a compra passando a quantidade de ingressos escolhida
+                    # como parâmetro. Esse parâmetro vai ser usado em um for dentro da função. O retorno da função
+                    # é um dicionário com as pulseiras adquiridas nessa venda, que é atribuído à variável dadosCompra.
+                    dadosCompra = processarCompra(quantIngressos)
 
-                # Aqui a varíavel de vendas gerais é redefinida. A função pega como parâmetro o dicionário dessa
-                # venda e o dicionário geral das vendas do dia. Adiciona dadosCompra à pulseirasCompradas e retorna
-                # com o dicionário de vendas geral atualizado.
-                pulseirasCompradas = atualizarDicionarioCompras(dadosCompra, pulseirasCompradas)
+                    # Aqui a varíavel de vendas gerais é redefinida. A função pega como parâmetro o dicionário dessa
+                    # venda e o dicionário geral das vendas do dia. Adiciona dadosCompra à pulseirasCompradas e retorna
+                    # com o dicionário de vendas geral atualizado.
+                    pulseirasCompradas = atualizarDicionarioCompras(dadosCompra, pulseirasCompradas)
+                else:
+                    print(f'>>> Quantidade excede vagas restantes ({capacidade - somarPulseiras(pulseirasCompradas)})')
             else:
                 # Sem mais capacidade, as variáveis eventoAcontecendo e vendas mudam de valor.
                 # Fechando o loop das vendas e do evento.
@@ -63,45 +67,57 @@ while eventoAcontecendo == 1:
         else:
             print(f'--- Entrada inválida. Tente novamente!')
 
-# Após as vendas encerrarem, é feito os cálculos necessário para o fechamento do caixa
-# e a exibição das estatísticas requisitadas pela organização do evento.
+# O programa só exibirá a visão geral do evento se forem realizadas vendas de ingressos.
+# Se não tiver, um mensagem informando a ausência de dados é imprimida. Sem essa condição
+# Haveriam diversos erros pela ausência de valores necessários para o fechamento do caixa
+# e o cálculo das estatísticas.
+if somarPulseiras(pulseirasCompradas) > 0:
+    # Após as vendas encerrarem, é feito os cálculos necessário para o fechamento do caixa
+    # e a exibição das estatísticas requisitadas pela organização do evento.
 
-# venda total de pulseiras no dia. a função retorna um número inteiro.
-arrecadacao = somarValoresPulseiras(pulseirasCompradas)
+    # venda total de pulseiras no dia. a função retorna um número inteiro.
+    arrecadacao = somarValoresPulseiras(pulseirasCompradas)
 
-# É retirado da arrecadação o pote destinado ao prêmio do concurso dos cosplayers.
-# A função retorna um valor real.
-potePremiosCosplay = tirarPotePremios(arrecadacao)
+    # É retirado da arrecadação o pote destinado ao prêmio do concurso dos cosplayers.
+    # A função retorna um valor real.
+    potePremiosCosplay = tirarPotePremios(arrecadacao)
 
-# Essa varíavel chama uma função que recebe o pote de prêmios e retorna uma lista para os valores ganhos
-# nas 3 posições dos vencedores do concurso cosplay.
-distribuicaoPremios = distribuirPremiosCosplay(potePremiosCosplay)
+    # Essa varíavel chama uma função que recebe o pote de prêmios e retorna uma lista para os valores ganhos
+    # nas 3 posições dos vencedores do concurso cosplay.
+    distribuicaoPremios = distribuirPremiosCosplay(potePremiosCosplay)
 
-# É calculado o lucro para a organização baseada na arrecadação e no pote de prêmios
-lucro = arrecadacao - potePremiosCosplay
+    # É calculado o lucro para a organização baseada na arrecadação e no pote de prêmios
+    lucro = arrecadacao - potePremiosCosplay
 
-# Ticket médio dos pagantes. Aqui, eu subtraio da quantidade de pulseiras vendidas as amarelas
-# (as amarelas, das crianças)
-mediaPagantes = arrecadacao / (somarPulseiras(pulseirasCompradas) - pulseirasCompradas['amarela'])
+    # caso o programa seja encerrado sem arrecadacao, gerará erros de divisão por zero.
+    # então o sistema só calcula as médias se tiver arrecadacao.
+    if arrecadacao > 0:
+        # Ticket médio dos pagantes. Aqui, eu subtraio da quantidade de pulseiras vendidas as amarelas
+        # (as amarelas, das crianças)
+        mediaPagantes = arrecadacao / (somarPulseiras(pulseirasCompradas) - pulseirasCompradas['amarela'])
 
-# Aqui o ticket médio é tirado com todas as categorias
-mediaGeral = arrecadacao / somarPulseiras(pulseirasCompradas)
+        # Aqui o ticket médio é tirado com todas as categorias
+        mediaGeral = arrecadacao / somarPulseiras(pulseirasCompradas)
 
-# Eu subtraio o total de pulseiras vendidas com a capacidade.
-vagasRestantes = capacidade - somarPulseiras(pulseirasCompradas)
+        # Eu subtraio o total de pulseiras vendidas com a capacidade.
+        vagasRestantes = capacidade - somarPulseiras(pulseirasCompradas)
 
-print('#'*50)
-print("{:^50}".format("VISÃO GERAL DO DIA DE EVENTO:\n"))
-print(f'>>> O dia arrecadou R${arrecadacao}')
-print(f'>>> O lucro foi de R${lucro}')
-print(f'>>> Capacidade restante ao final do evento: {vagasRestantes}\n')
-print(f'>>> R${potePremiosCosplay} foram destinados para a premiação do concurso cosplay')
-for i, v in enumerate(distribuicaoPremios):
-    print(f'>>> {i+1}º lugar: R${v}')
-print(f'\n>>> O ticket médio por categorias pagantes foi R${mediaPagantes:.2f}')
-print(f'>>> O ticket geral foi R${mediaGeral:.2f}\n')
-ganhosPorPulseira(pulseirasCompradas)
-print('#'*50)
+    print('#' * 50)
+    print("{:^50}".format("VISÃO GERAL DO DIA DE EVENTO:\n"))
+    print(f'>>> O dia arrecadou R${arrecadacao}')
+    print(f'>>> O lucro foi de R${lucro}')
+    print(f'>>> Capacidade restante ao final do evento: {vagasRestantes}\n')
+    print(f'>>> R${potePremiosCosplay} foram destinados para a premiação do concurso cosplay')
+    for i, v in enumerate(distribuicaoPremios):
+        print(f'>>> {i + 1}º lugar: R${v}')
+    print(f'\n>>> O ticket médio por categorias pagantes foi R${mediaPagantes:.2f}')
+    print(f'>>> O ticket geral foi R${mediaGeral:.2f}\n')
+    ganhosPorPulseira(pulseirasCompradas)
+    print('#' * 50)
+else:
+    print(f'#### NÃO FOI REALIZADA NENHUMA VENDA, LOGO, NÃO HÁ DADOS PARA PROCESSAR E EXIBIR.')
+
+
 
 
 
