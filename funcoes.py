@@ -190,7 +190,6 @@ def distribuirPremiosCosplay(pote):
 
 def ganhosPorPulseira(pulseiras):
     ganhosPulseiras = {}
-    rankingGanhos = {}
 
     for i, v in pulseiras.items():
         if i == "laranja":
@@ -205,25 +204,27 @@ def ganhosPorPulseira(pulseiras):
 
     maior = int(0)
     menor = int(9000000000)
-    for ganho in ganhosPulseiras.values():
+    for indicie, ganho in ganhosPulseiras.items():
         if ganho > maior:
             maior = ganho
         elif ganho < menor:
             menor = ganho
-        elif ganho < maior and ganho > menor:
-            medio = ganho
-        elif ganho == maior:
-            medio = ganho
-        elif ganho == menor:
-            medio = ganho
 
-    rankingGanhos['primeiro'] = maior
-    rankingGanhos['segundo'] = medio
-    rankingGanhos['terceiro'] = menor
-    dadosArrecadacao = [ganhosPulseiras, rankingGanhos]
+    print(f'>>> Arrecadou R${maior} (maior contribução):', end=" ")
+    for i, v in ganhosPulseiras.items():
+        if v == maior:
+            print(f'{i}', end="; ")
+    print(f'')
 
-    return dadosArrecadacao
+    for i, v in ganhosPulseiras.items():
+        if v < maior and v > menor:
+            print(f'>>> Arrecadou R${v}: {i};')
 
+    print(f'>>> Arrecadou R${menor} (menor contribução):', end=" ")
+    for i, v in ganhosPulseiras.items():
+        if v == menor:
+            print(f'{i}', end="; ")
+    print(f'')
 
 def temCapacidade(dicionarioPulseiras, capacidade):
     if somarPulseiras(dicionarioPulseiras) < capacidade:
