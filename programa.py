@@ -117,7 +117,12 @@ if somarPulseiras(pulseirasCompradas) > 0:
 else:
     print(f'#### NÃO FOI REALIZADA NENHUMA VENDA, LOGO, NÃO HÁ DADOS PARA PROCESSAR E EXIBIR.')
 
-
+# Declaração de autoria
+# Nome: [seu nome completo]
+# Declaro que este código foi desenvolvido por mim, com base no meu próprio
+# entendimento e esforço. Não houve plágio ou cópia integral de terceiros.
+# Ferramentas de IA, quando utilizadas, foram apenas como apoio ao aprendizado
+# e não para a geração integral deste código.
 
 
 
