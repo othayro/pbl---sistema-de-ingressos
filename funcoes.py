@@ -1,3 +1,11 @@
+# Declaração de autoria
+# Nome: Thayro Gabriel Alves
+# Declaro que este código foi desenvolvido por mim, com base no meu próprio
+# entendimento e esforço. Não houve plágio ou cópia integral de terceiros.
+# Ferramentas de IA, quando utilizadas, foram apenas como apoio ao aprendizado
+# e não para a geração integral deste código.
+
+
 def receberValidarEntrada(tipo):
     """
     Função criada para receber a entrada do usuário e validar que ela foi digitada corretamente
@@ -185,16 +193,19 @@ def efetuarPagamento(total):
     '''
     efetuando = 1
     while efetuando == 1:
-        print(f'--- Insira o valor do dinheiro para pagar:')
-        pegarDinheiro = receberValidarEntrada(2)
-        if pegarDinheiro < total:
-            print(f'>>> VALOR NÃO SUFICIENTE!')
-        elif pegarDinheiro >= total:
-            troco = pegarDinheiro - total
-            if troco == 0:
-                return print(f'>>> Pagamento efetuado!')
-            elif troco > 0:
-                return print(f'>>> Pagamento efetuado! O troco é R${troco:.2f}.')
+        if total > 0:
+            print(f'--- Insira o valor do dinheiro para pagar:')
+            pegarDinheiro = receberValidarEntrada(2)
+            if pegarDinheiro < total:
+                print(f'>>> VALOR NÃO SUFICIENTE!')
+            elif pegarDinheiro >= total:
+                troco = pegarDinheiro - total
+                if troco == 0:
+                    return print(f'>>> Pagamento efetuado!')
+                elif troco > 0:
+                    return print(f'>>> Pagamento efetuado! O troco é R${troco:.2f}.')
+        else:
+            return print(f'>>> GRATUITO. Não há o que pagar.')
 
 def atualizarDicionarioCompras(dados, compradas):
     '''

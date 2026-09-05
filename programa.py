@@ -1,6 +1,13 @@
 from funcoes import *
 # Acima, estou importando o arquivo com as funções que eu criei e usei nesse programa.
 
+# Declaração de autoria
+# Nome: Thayro Gabriel Alves
+# Declaro que este código foi desenvolvido por mim, com base no meu próprio
+# entendimento e esforço. Não houve plágio ou cópia integral de terceiros.
+# Ferramentas de IA, quando utilizadas, foram apenas como apoio ao aprendizado
+# e não para a geração integral deste código.
+
 print("~"*30)
 print("{:^30}".format('TOTEM DE INGRESSOS'))
 print("~"*30)
@@ -71,12 +78,14 @@ while eventoAcontecendo == 1:
 # Se não tiver, um mensagem informando a ausência de dados é imprimida. Sem essa condição
 # Haveriam diversos erros pela ausência de valores necessários para o fechamento do caixa
 # e o cálculo das estatísticas.
-if somarPulseiras(pulseirasCompradas) > 0:
+# venda total de pulseiras no dia. a função retorna um número inteiro.
+arrecadacao = somarValoresPulseiras(pulseirasCompradas)
+
+# caso o programa seja encerrado sem arrecadacao, gerará erros de divisão por zero.
+# então o sistema só calcula as médias se tiver arrecadacao.
+if arrecadacao > 0:
     # Após as vendas encerrarem, é feito os cálculos necessário para o fechamento do caixa
     # e a exibição das estatísticas requisitadas pela organização do evento.
-
-    # venda total de pulseiras no dia. a função retorna um número inteiro.
-    arrecadacao = somarValoresPulseiras(pulseirasCompradas)
 
     # É retirado da arrecadação o pote destinado ao prêmio do concurso dos cosplayers.
     # A função retorna um valor real.
@@ -89,18 +98,15 @@ if somarPulseiras(pulseirasCompradas) > 0:
     # É calculado o lucro para a organização baseada na arrecadação e no pote de prêmios
     lucro = arrecadacao - potePremiosCosplay
 
-    # caso o programa seja encerrado sem arrecadacao, gerará erros de divisão por zero.
-    # então o sistema só calcula as médias se tiver arrecadacao.
-    if arrecadacao > 0:
-        # Ticket médio dos pagantes. Aqui, eu subtraio da quantidade de pulseiras vendidas as amarelas
-        # (as amarelas, das crianças)
-        mediaPagantes = arrecadacao / (somarPulseiras(pulseirasCompradas) - pulseirasCompradas['amarela'])
+    # Ticket médio dos pagantes. Aqui, eu subtraio da quantidade de pulseiras vendidas as amarelas
+    # (as amarelas, das crianças)
+    mediaPagantes = arrecadacao / (somarPulseiras(pulseirasCompradas) - pulseirasCompradas['amarela'])
 
-        # Aqui o ticket médio é tirado com todas as categorias
-        mediaGeral = arrecadacao / somarPulseiras(pulseirasCompradas)
+    # Aqui o ticket médio é tirado com todas as categorias
+    mediaGeral = arrecadacao / somarPulseiras(pulseirasCompradas)
 
-        # Eu subtraio o total de pulseiras vendidas com a capacidade.
-        vagasRestantes = capacidade - somarPulseiras(pulseirasCompradas)
+    # Eu subtraio o total de pulseiras vendidas com a capacidade.
+    vagasRestantes = capacidade - somarPulseiras(pulseirasCompradas)
 
     print('#' * 50)
     print("{:^50}".format("VISÃO GERAL DO DIA DE EVENTO:\n"))
@@ -115,14 +121,12 @@ if somarPulseiras(pulseirasCompradas) > 0:
     ganhosPorPulseira(pulseirasCompradas)
     print('#' * 50)
 else:
-    print(f'#### NÃO FOI REALIZADA NENHUMA VENDA, LOGO, NÃO HÁ DADOS PARA PROCESSAR E EXIBIR.')
+    if pulseirasCompradas['amarela'] > 0:
+        print(f'#### Apenas pulseiras amarelas (gratuitas) foram distribuídas ({pulseirasCompradas["amarela"]} ao todo).')
+        print(f'#### Não há mais dados utéis para processar.')
+    else:
+        print(f'#### NÃO FOI REALIZADA NENHUMA VENDA, LOGO, NÃO HÁ DADOS PARA PROCESSAR E EXIBIR.')
 
-# Declaração de autoria
-# Nome: [seu nome completo]
-# Declaro que este código foi desenvolvido por mim, com base no meu próprio
-# entendimento e esforço. Não houve plágio ou cópia integral de terceiros.
-# Ferramentas de IA, quando utilizadas, foram apenas como apoio ao aprendizado
-# e não para a geração integral deste código.
 
 
 
