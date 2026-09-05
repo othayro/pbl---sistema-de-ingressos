@@ -320,7 +320,7 @@ def ganhosPorPulseira(pulseiras):
     for indicie, ganho in ganhosPulseiras.items():
         if ganho > maior:
             maior = ganho
-        elif ganho < menor:
+        if ganho < menor:
             menor = ganho
 
     # Primeiro pega a maior arrecadação, cruza com o dicionário e imprime as cores
